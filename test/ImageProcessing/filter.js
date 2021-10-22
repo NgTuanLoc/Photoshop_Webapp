@@ -27,27 +27,17 @@ let filters = {
     });
   },
   contrast: function (src, val) {
-    let factor = Math.max((128 + val) / 128, 0);
+    let factor = (val + 255) / (255.01 - val);
     let clp = clamp;
     return src.map(function (data, idx) {
-      data[idx] = clp(data[idx] * factor, 0, 255);
+      data[idx] = clp(factor * (data[idx] - 128) + 128, 0, 255);
       ++idx;
-      data[idx] = clp(data[idx] * factor, 0, 255);
+      data[idx] = clp(factor * (data[idx] - 128) + 128, 0, 255);
       ++idx;
-      data[idx] = clp(data[idx] * factor, 0, 255);
+      data[idx] = clp(factor * (data[idx] - 128) + 128, 0, 255);
     });
   },
-  brightnesscontrast: function (src, alpha, beta) {
-    let factor = Math.max((128 + alpha) / 128, 0);
-    let clp = clamp;
-    return src.map(function (data, idx) {
-      data[idx] = clp(data[idx] * factor + beta, 0, 255);
-      ++idx;
-      data[idx] = clp(data[idx] * factor + beta, 0, 255);
-      ++idx;
-      data[idx] = clp(data[idx] * factor + beta, 0, 255);
-    });
-  },
+
   histogram: function (src) {
     // histogram equalization, blended with original image
     // amount is between 0 and 1
@@ -206,16 +196,3 @@ let filters = {
     }
   },
 };
-
-
-// contrast: function (src, val) {
-//   let factor = Math.max((128 + val) / 128, 0);
-//   let clp = clamp;
-//   return src.map(function (data, idx) {
-//     data[idx] = clp(data[idx] * factor, 0, 255);
-//     ++idx;
-//     data[idx] = clp(data[idx] * factor, 0, 255);
-//     ++idx;
-//     data[idx] = clp(data[idx] * factor, 0, 255);
-//   });
-// },
