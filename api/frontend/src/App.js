@@ -40,26 +40,6 @@ const App = () => {
       .post("http://localhost:5000/upload", formData)
       .then(function (response, data) {
         data = response.data;
-
-        console.log(data);
-
-        // let matrixBlob = new Blob([data], {
-        //   type: "image/png",
-        // });
-
-        // let fileReader = new FileReader();
-        // fileReader.readAsDataURL(matrixBlob);
-        // fileReader.onload = () => {
-        //   let result = fileReader.result;
-        //   console.log(result);
-        //   setPreviewImageUrl(result);
-        // };
-
-        // generatePreviewImageUrl(matrixBlob, (previewImageUrl) => {
-        //   setImagePrediction("");
-        //   setPreviewImageUrl(previewImageUrl);
-        // });
-
         setPreviewImageUrl(data);
         let t1 = performance.now();
         console.log(
