@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
@@ -7,6 +7,7 @@ import json
 from torchvision import models, transforms
 from torch.autograd import Variable
 import torchvision.models as models
+import base64
 
 
 from PIL import Image
@@ -27,10 +28,12 @@ CORS(app)
 
 # Path for uploaded images
 UPLOAD_FOLDER = 'data/uploads/'
+OUTPUT_FOLDER = 'data/result/'
 
 # Allowed file extransions
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
 
 @app.route("/")
 def hello():
@@ -59,7 +62,9 @@ def upload_file():
 			predicted_image_class = predict_img(UPLOAD_FOLDER+filename)
 			print("predicted_image_class", predicted_image_class)
 
-	return json.dumps(predicted_image_class)
+	# return json.dumps(predicted_image_class)
+
+	return send_file('golden.png', mimetype='image/png')
 
 def predict_img(img_path):
 

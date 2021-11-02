@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import logo from './logo.svg';
+
 import "./App.css";
 import axios from "axios";
 
@@ -9,10 +9,11 @@ const App = () => {
   const [imageFile, setImageFile] = useState(null);
   const [imagePrediction, setImagePrediction] = useState("initialState");
 
+  
   const generatePreviewImageUrl = (file, callback) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    console.log(previewImageUrl);
+
     reader.onloadend = (e) => callback(reader.result);
   };
 
@@ -37,11 +38,27 @@ const App = () => {
 
     let t0 = performance.now();
     axios
-      .post("http://127.0.0.1:5000/upload", formData)
+      .post("http://localhost:5000/upload", formData)
       .then(function (response, data) {
         data = response.data;
 
-        setImagePrediction(data);
+        let matrixBlob = new Blob([data], {
+          type: "image/png",
+        });
+
+        // let fileReader = new FileReader();
+        // fileReader.readAsDataURL(matrixBlob);
+        // fileReader.onload = () => {
+        //   let result = fileReader.result;
+        //   console.log(result);
+        //   setPreviewImageUrl(result);
+        // };
+
+        generatePreviewImageUrl(matrixBlob, (previewImageUrl) => {
+          setImagePrediction("");
+          setPreviewImageUrl(previewImageUrl);
+        });
+
         let t1 = performance.now();
         console.log(
           "The time it took to predict the image " +

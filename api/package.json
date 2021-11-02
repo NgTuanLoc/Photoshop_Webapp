@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "dev": "cd frontend && npm start && cd ../backend && python3 app.py"
+  },
   "dependencies": {
     "axios": "^0.24.0"
   }
