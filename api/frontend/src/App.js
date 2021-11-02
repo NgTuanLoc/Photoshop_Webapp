@@ -7,9 +7,8 @@ const App = () => {
   const [previewImageUrl, setPreviewImageUrl] = useState(false);
   const [imageHeight, setImageHeight] = useState(500);
   const [imageFile, setImageFile] = useState(null);
-  const [imagePrediction, setImagePrediction] = useState("initialState");
+  const [imagePrediction, setImagePrediction] = useState("");
 
-  
   const generatePreviewImageUrl = (file, callback) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -42,9 +41,11 @@ const App = () => {
       .then(function (response, data) {
         data = response.data;
 
-        let matrixBlob = new Blob([data], {
-          type: "image/png",
-        });
+        console.log(data);
+
+        // let matrixBlob = new Blob([data], {
+        //   type: "image/png",
+        // });
 
         // let fileReader = new FileReader();
         // fileReader.readAsDataURL(matrixBlob);
@@ -54,11 +55,12 @@ const App = () => {
         //   setPreviewImageUrl(result);
         // };
 
-        generatePreviewImageUrl(matrixBlob, (previewImageUrl) => {
-          setImagePrediction("");
-          setPreviewImageUrl(previewImageUrl);
-        });
+        // generatePreviewImageUrl(matrixBlob, (previewImageUrl) => {
+        //   setImagePrediction("");
+        //   setPreviewImageUrl(previewImageUrl);
+        // });
 
+        setPreviewImageUrl(data);
         let t1 = performance.now();
         console.log(
           "The time it took to predict the image " +
