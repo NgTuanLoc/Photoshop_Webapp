@@ -8,13 +8,7 @@ from PIL import Image
 import base64
 import io
 
-
-# All the 1000 imagenet classes
-class_labels = 'imagenet_classes.json'
-
-# Read the json
-with open('imagenet_classes.json', 'r') as fr:
-	json_classes = json.loads(fr.read())
+from script import *
 
 app = Flask(__name__)
 
@@ -29,6 +23,17 @@ OUTPUT_FOLDER = 'data/result/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
+
+
+def preprocessing_image(image_path):
+	img = Image.open(image_path)
+	buffer = io.BytesIO()
+	img.save(buffer, 'png')
+	buffer.seek(0)
+	data = buffer.read()
+	data = base64.b64encode(data).decode()
+	return data
+
 
 @app.route("/")
 def hello():
@@ -54,16 +59,13 @@ def upload_file():
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-	img = Image.open("./data/result/golden.png")
-	buffer = io.BytesIO()
-	img.save(buffer, 'png')
-	buffer.seek(0)
-	data = buffer.read()
-	data = base64.b64encode(data).decode()
 
+
+	object_detection(image_path=[str("./data/uploads/"+os.listdir("data/uploads/")[0])])
+
+	data = preprocessing_image("./data/result/"+os.listdir("./data/result/")[0])
 	return f'"data:image/png;base64,{data}"'
 
-	# return send_file( './data/result/golden.png', mimetype='image/png')
 
 
 
