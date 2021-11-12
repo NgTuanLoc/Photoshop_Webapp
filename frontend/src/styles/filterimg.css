@@ -1,0 +1,40 @@
+.filer__image{
+    width: 70%;
+    margin-top: 30px;
+    margin-left: 2%;
+}
+
+.filter__swiper{
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.filter__swiper img{
+    width: 90%;
+    height: 100%;
+}
+
+.filer__image-selected{
+    width: 100%;
+}
+
+.swiper-pagination {
+    margin-top: 30px;
+}
+
+.filer__swiper-download{
+    display: flex;
+    margin: auto;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1.6rem;
+    background-color: greenyellow;
+    cursor: pointer;
+    border: none;
+}
+
+.filer__swiper-download:hover{
+    opacity: 0.8;
+    box-shadow: 0 0 3px #ccc;
+}
